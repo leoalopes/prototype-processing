@@ -1,8 +1,15 @@
 int colour = 1;
 Drawing drawing = new Drawing();
 
+PImage save;
+PImage undo;
+PImage clean;
+
 void setup() {
   size(1200, 600);
+  save = loadImage("save.png");
+  undo = loadImage("undo.png");
+  clean = loadImage("clean.png");
 }
 
 void draw() {
@@ -83,6 +90,10 @@ void draw() {
     stroke(0, 0, 0);
   }
   square(20, 130, 20);
+  
+  image(save, width - 120, 20, 25, 25);
+  image(undo, width - 85, 20, 25, 25);
+  image(clean, width - 50, 20, 25, 25);
 }
 
 void mousePressed() {
@@ -102,6 +113,17 @@ void mousePressed() {
     }
     if(mouseY >= 130 && mouseY <= 150) {
       colour = 5;
+    }
+  } else if(mouseX >= width - 120 && mouseX <= width - 25
+            && mouseY >= 20 && mouseY <= 45) {
+    if(mouseX >= width - 120 && mouseX <= width - 95) {
+      drawing.save();
+    }
+    if(mouseX >= width - 85 && mouseX <= width - 60) {
+      
+    }
+    if(mouseX >= width - 50 && mouseX <= width - 25) {
+      drawing.clean();
     }
   }
 }
