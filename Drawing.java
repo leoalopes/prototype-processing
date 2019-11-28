@@ -2,16 +2,22 @@ import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class Drawing {
+public class Drawing implements Cloneable {
   private ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
   private ArrayList<Integer> disconnections = new ArrayList<Integer>();
   
   public Drawing() {
     try {
-      this.coordinates = FileHandler.readFile();
+      this.coordinates = FileHandler.readCoordinates();
+      this.disconnections = FileHandler.readDisconnections();
     } catch(Exception e) {
       System.out.println(e.getMessage());
     }
+  }
+  
+  public Drawing(ArrayList<Coordinate> coordinates, ArrayList<Integer> disconnections) {
+    this.coordinates = coordinates;
+    this.disconnections = disconnections;
   }
   
   public ArrayList<Coordinate> getCoordinates() {
@@ -22,20 +28,21 @@ public class Drawing {
     return this.disconnections;
   }
   
-  private void clearData() {
-    
-  }
-  
   public void save() {
-    this.clearData();
     if(this.coordinates.size() > 0) {
-      FileHandler.saveToFile(this.coordinates);
+      FileHandler.saveCoordinates(this.coordinates);
+      FileHandler.saveDisconnections(this.disconnections);
     }
   }
   
   public void clean() {
-    this.clearData();
     this.coordinates.clear();
     this.disconnections.clear();
+    FileHandler.clear();
+  }
+  
+  @Override
+  public Object clone() {
+    return new Drawing((ArrayList) this.coordinates.clone(), (ArrayList) this.disconnections.clone());
   }
 }

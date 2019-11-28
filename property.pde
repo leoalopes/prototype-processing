@@ -1,5 +1,6 @@
 int colour = 1;
 Drawing drawing = new Drawing();
+Drawing backup = (Drawing) drawing.clone();
 
 PImage save;
 PImage undo;
@@ -118,12 +119,15 @@ void mousePressed() {
             && mouseY >= 20 && mouseY <= 45) {
     if(mouseX >= width - 120 && mouseX <= width - 95) {
       drawing.save();
+      backup = (Drawing) drawing.clone();
     }
     if(mouseX >= width - 85 && mouseX <= width - 60) {
-      
+      drawing = (Drawing) backup.clone();
+      backup = (Drawing) drawing.clone();
     }
     if(mouseX >= width - 50 && mouseX <= width - 25) {
       drawing.clean();
+      backup = (Drawing) drawing.clone();
     }
   }
 }
